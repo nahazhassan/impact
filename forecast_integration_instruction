@@ -1,0 +1,38 @@
+Forecast Integration Instructions for weather_bot.py
+
+This document explains how the forecast integration is implemented in the weather_bot.py application.
+
+1. API Endpoint:
+   - The application uses the OpenWeatherMap 5-day/3-hour forecast API endpoint:
+     https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}
+   - This endpoint provides weather forecast data in 3-hour intervals for the next 5 days for the specified city.
+
+2. Fetching Forecast Data:
+   - When the user inputs a city name and clicks the "Get Weather" button, the application sends an HTTP GET request to the forecast API endpoint.
+   - The request URL is constructed dynamically using the city name entered by the user and a predefined API key.
+   - The application uses the `requests` library to perform the HTTP request.
+   - The response is checked for success by verifying the "cod" field in the JSON response equals "200".
+
+3. Handling Forecast Data:
+   - Upon successful response, the forecast data JSON is parsed.
+   - The forecast data contains a list of weather entries, each representing a 3-hour forecast segment.
+   - For each forecast entry, the application extracts:
+     - Date and time (`dt_txt`)
+     - Temperature in Kelvin (`main.temp`), which is converted to Celsius
+     - Weather condition ID (`weather[0].id`)
+     - Weather description (`weather[0].description`)
+
+4. Displaying Forecast Data:
+   - The application clears any previous forecast display.
+   - It then iterates over the forecast entries and creates a QLabel for each entry.
+   - Each label shows the date/time, temperature in Celsius, weather description, and an emoji representing the weather condition.
+   - The emoji is determined by mapping the weather condition ID to a corresponding Unicode emoji.
+   - These labels are added to a scrollable area in the UI, allowing the user to view the forecast for the upcoming days.
+
+5. Error Handling:
+   - If the forecast API request fails or returns an error code, the application displays an appropriate error message to the user.
+   - Common HTTP errors such as 400, 401, 403, 404, 500, 502, 503, and 504 are handled with user-friendly messages.
+   - Network-related exceptions like connection errors, timeouts, and too many redirects are also handled gracefully.
+
+Summary:
+The forecast integration in weather_bot.py provides a detailed 5-day weather forecast in 3-hour intervals by leveraging the OpenWeatherMap forecast API. It fetches, processes, and displays the forecast data in a user-friendly scrollable interface with descriptive text and emojis representing weather conditions.
