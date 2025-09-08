@@ -1,2 +1,2 @@
 # impact
-IMPACT is a project based on major project in my college...
+This repo is based on my hobbies and passion towards tech and learning
